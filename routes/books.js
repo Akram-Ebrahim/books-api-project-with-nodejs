@@ -10,7 +10,27 @@ const { verifyTokenAndAdmin } = require('../middlewares/verifyToken')
  * @access public
  */
 router.get('/', async (req,res) => {
-  const books = await Book.find().populate('author')
+  // Accept Queries From Client & Filter
+  const { minPrice, maxPrice, pageNumber } = req.query;
+  const booksPerPage = 2;
+  let books;
+  if (minPrice && maxPrice) {
+    books = await Book.find({price: {$gte:minPrice,$lte:maxPrice}})
+    .populate('author', [
+      '_id',
+      'firstName',
+      'lastName'
+    ])
+  } else {
+    books = await Book.find()
+    .populate('author', [
+      '_id',
+      'firstName',
+      'lastName'
+    ])
+    // Pagination
+    .skip((pageNumber - 1) * booksPerPage).limit(booksPerPage) // skip 2 rows && show 2 after them
+  }
   res.status(200).json(books);
 })
 
