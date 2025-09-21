@@ -1,8 +1,17 @@
-
 # Books API Project
 
 This Project was made by node.js, express.js and some of third-party packages to serve the project
 
+## Environment Variables
+create a `.env` file in root directory :
+```
+MONGO_URI = your mongodb uri 
+PORT = your port
+NODE_ENV = development
+JWT_SECRET_KEY = jwt secret key
+USER_EMAIL = your sender email
+USER_APP_PASSWORD = your app password
+```
 
 ## API Reference
 
