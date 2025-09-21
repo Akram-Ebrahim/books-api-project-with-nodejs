@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const helmet = require('helmet');
+const cors = require('cors');
 
 // Database Connection
 const { connectDB } = require('./config/connect_db');
@@ -17,6 +19,12 @@ app.use(express.urlencoded({extended: false})); // URL Encoded (Get Email From V
 
 // Custom middleware to log requests
 app.use(require('./middlewares/logger'));
+
+// Make a helmet middleware (Security by making a various HTTP headers)
+app.use(helmet());
+
+// Cors Policy (Connect Frontend-React:3000 with Backend-node:5000)
+app.use(cors());
 
 // set ejs
 app.set('view engine', 'ejs')
