@@ -9,15 +9,20 @@ const app = express();
 
 // Apply middleware
 app.use(express.json());
+app.use(express.urlencoded({extended: false})); // URL Encoded (Get Email From View)
 
 // Custom middleware to log requests
 app.use(require('./middlewares/logger'));
+
+// set ejs
+app.set('view engine', 'ejs')
 
 // Routes
 app.use('/api/books', require('./routes/books'));
 app.use('/api/authors', require('./routes/authors'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
+app.use('/password', require('./routes/password'));
 
 // Custom middleware to handle errors //![must be after routes]
 const { errorHandler, notFound } = require('./middlewares/errors');
