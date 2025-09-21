@@ -7,7 +7,7 @@ This Project was made by node.js, express.js and some of third-party packages to
 ## API Reference
 
 > [!NOTE]
-> There are other routes you can discover [Authors,user authentication, user details, MVC, uploading images, and so on].
+> If you have any feedback, please reach out to us at akroooom40@gmail.com.
 
 ### Books
 #### Get All Books
