@@ -1,4 +1,4 @@
-const { User } = require('../models/User');
+const { User, validateChangePassword } = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
@@ -58,13 +58,14 @@ const sendForgetPasswordLink = async (req,res) => {
 
     transporter.sendMail(mailOptions, function(error,success) {
       if (error) {
-        console.log(error)
-      } else {
-        console.log('Email Send: ' + success.response)
+        console.log(error);
+        return res.status(500).json({message: 'Something Went Wrong'});
       }
+      
+      console.log('Email Sent: ' + success.response);
+      res.render('link-send');
     })
-
-    res.render('link-send');
+    
   } catch (error) {
     console.log(error);
   }
@@ -100,7 +101,11 @@ const getResetPasswordView = async (req,res) => {
  * @access public
  */
 const resetThePassword = async (req,res) => {
-  // TODO: Validation Password
+  // Password Validation
+  const { error } = validateChangePassword(req.body);
+  if (error) {
+    return res.status(500).json({message: error.details[0].message});
+  }
   // Check User Available
   const user = await User.findById(req.params.userId);
   if (!user) {

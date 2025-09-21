@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 // Database Connection
 const { connectDB } = require('./config/connect_db');
@@ -6,6 +7,9 @@ connectDB();
 
 // Init app
 const app = express();
+
+// Static Folter (Images)
+app.use(express.static(path.join(__dirname,'images')))
 
 // Apply middleware
 app.use(express.json());
@@ -23,6 +27,7 @@ app.use('/api/authors', require('./routes/authors'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/password', require('./routes/password'));
+app.use('/api/upload', require('./routes/upload'));
 
 // Custom middleware to handle errors //![must be after routes]
 const { errorHandler, notFound } = require('./middlewares/errors');
